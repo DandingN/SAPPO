@@ -1,0 +1,80 @@
+dl_toolbox: "torch"  # The deep learning toolbox. Choices: "torch", "mindspore", "tensorlayer"
+project_name: "XuanCe_Benchmark"
+logger: "tensorboard"  # Choices: tensorboard, wandb.
+wandb_user_name: "your_user_name"
+
+render_mode: 'rgb_array' # Choices: 'human', 'rgb_array'.
+fps: 50
+
+device: "cuda:0"  # Choose an calculating device. PyTorch: "cpu", "cuda:0"; TensorFlow: "cpu"/"CPU", "gpu"/"GPU"; MindSpore: "CPU", "GPU", "Ascend", "Davinci".
+distributed_training: False  # Whether to use multi-GPU for distributed training.
+master_port: '12355'  # The master port for current experiment when use distributed training.
+
+env_name: "MyNewEnv"
+env_id: "new_env_id"
+vectorize: "DummyVecEnv"
+
+agent: "PPO_Clip"  # choice: PPO_Clip, PPO_KL
+learner: "PPOCLIP_Learner"
+policy: "Categorical_AC"  # choice: Gaussian_AC for continuous actions, Categorical_AC for discrete actions.
+
+representation: "Basic_RNN"
+runner: "DRL"
+
+use_rnn: True
+rnn: "LSTM"
+representation_hidden_size: {
+  fc_hidden_sizes: [ 64 ],
+  recurrent_hidden_size: 64
+}
+
+N_recurrent_layers: 1
+dropout: 0
+normalize: "LayerNorm"
+initialize: "orthogonal"
+actor_hidden_size: [ 64,64 ]
+critic_hidden_size: [ 64, ]
+activation: "relu"
+
+seed: 79811
+env_seed: 79811
+parallels: 10
+running_steps: 3100000000  # 1000000
+horizon_size: 256  # the horizon size for an environment, buffer_size = horizon_size * parallels.
+n_epochs: 16
+n_minibatch: 8
+learning_rate: 0.0004
+
+vf_coef: 0.25
+ent_coef: 0.0
+target_kl: 0.25  # for PPO_KL agent
+kl_coef: 1.0  # for PPO_KL agent
+clip_range: 0.2  # for PPO_Clip agent
+gamma: 0.99
+use_gae: True
+gae_lambda: 0.95
+use_advnorm: True
+
+use_grad_clip: True  # gradient normalization
+clip_type: 1  # Gradient clip for Mindspore: 0: ms.ops.clip_by_value; 1: ms.nn.ClipByNorm()
+grad_clip_norm: 0.5
+use_actions_mask: False
+
+use_obsnorm: False
+use_rewnorm: True
+obsnorm_range: 5
+rewnorm_range: 5
+
+test_steps: 10000
+eval_interval: 5000
+test_episode: 10
+log_dir: "./logs/ppo/"
+model_dir: "./models/ppo/test/"
+
+start_pos: [ 0, 0 ]
+grid_size: 10
+observation_size: 3
+max_episode_steps: 31
+repeat_punish: 0
+zero_punish: 0
+object_percent: 90
